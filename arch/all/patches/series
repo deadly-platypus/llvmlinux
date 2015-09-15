@@ -1,4 +1,3 @@
-kbuild-clang-detect.patch
 kbuild-cross-build.patch
 disable-clang-integrated-as.patch
 overflow-warn.patch
