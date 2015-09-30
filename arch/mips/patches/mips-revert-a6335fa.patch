@@ -10,37 +10,32 @@ It seems to break the boot for LLVMLinux.
  arch/mips/kernel/setup.c | 13 ++++++++-----
  1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/arch/mips/kernel/setup.c b/arch/mips/kernel/setup.c
-index 008b337..be73c49 100644
---- a/arch/mips/kernel/setup.c
-+++ b/arch/mips/kernel/setup.c
-@@ -337,11 +337,6 @@ static void __init bootmem_init(void)
+--- linux.orig/arch/mips/kernel/setup.c
++++ linux/arch/mips/kernel/setup.c
+@@ -337,11 +337,6 @@
  			min_low_pfn = start;
  		if (end <= reserved_end)
  			continue;
 -#ifdef CONFIG_BLK_DEV_INITRD
--		/* mapstart should be after initrd_end */
+-		/* Skip zones before initrd and initrd itself */
 -		if (initrd_end && end <= (unsigned long)PFN_UP(__pa(initrd_end)))
 -			continue;
 -#endif
  		if (start >= mapstart)
  			continue;
  		mapstart = max(reserved_end, start);
-@@ -371,6 +366,14 @@ static void __init bootmem_init(void)
- 		max_low_pfn = PFN_DOWN(HIGHMEM_START);
- 	}
+@@ -373,6 +368,14 @@
  
-+#ifdef CONFIG_BLK_DEV_INITRD
-+	/*
+ #ifdef CONFIG_BLK_DEV_INITRD
+ 	/*
 +	 * mapstart should be after initrd_end
 +	 */
 +	if (initrd_end)
 +		mapstart = max(mapstart, (unsigned long)PFN_UP(__pa(initrd_end)));
 +#endif
 +
- 	/*
- 	 * Initialize the boot-time allocator with low memory only.
++#ifdef CONFIG_BLK_DEV_INITRD
++	/*
+ 	 * mapstart should be after initrd_end
  	 */
--- 
-2.1.4
-
+ 	if (initrd_end)
