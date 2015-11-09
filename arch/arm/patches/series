@@ -1,4 +1,4 @@
-eabi-arm.patch
+#eabi-arm.patch
 kbuild-clang-arm.patch
 #bcm_kona_smc.patch
 #arm_teach__asmeq_that_r11_fp_and_r12_ip.patch
