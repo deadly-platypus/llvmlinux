@@ -98,8 +98,8 @@ DEPMSG_EXTRAS	= "Not necessary. But you may want..."
 
 ##############################################################################
 check_foreign_arch = dpkg --print-architecture | egrep -q '^amd64$$' \
-		&& dpkg --print-foreign-architectures | egrep -qv '^i386$$' \
-		&& (echo "You need to: 'sudo dpkg --add-architecture i386'"; false ) || true
+		&& ( dpkg --print-foreign-architectures | egrep -q '^i386$$' \
+		|| (echo "You need to: 'sudo dpkg --add-architecture i386'"; false ) ) || true
 debdep	= $(call check_foreign_arch); \
 	DEBS=`dpkg -l $(1) 2>/dev/null | awk '/^[pu]/ {print $$2}'; \
 	dpkg -l $(1) 2>&1 >/dev/null | awk '{print $$6}'` ; \
