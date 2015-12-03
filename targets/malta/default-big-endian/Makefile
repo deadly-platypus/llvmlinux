@@ -27,5 +27,6 @@ TOPDIR		= $(realpath ${TARGETDIR}/../../..)
 
 MIPS_ENDIAN = big
 KERNEL_CFG = config
+BUILDROOT_ARCH = qemu_mips_malta
 
 include ${TARGETDIR}/../malta-common.mk
