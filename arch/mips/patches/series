@@ -8,5 +8,4 @@ kbuild-mips-enable-ias.patch
 #mips-ias-fix-noat-warnings.patch
 mips-disable-werror.patch
 mips-revert-a6335fa.patch
-mips-fix-ebb5e78cc634.patch
 mips-fix-ebb5e78cc634-clang.patch
