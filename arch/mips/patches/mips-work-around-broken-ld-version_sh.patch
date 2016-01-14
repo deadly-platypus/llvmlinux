@@ -1,0 +1,10 @@
+--- linux.orig/scripts/ld-version.sh
++++ linux/scripts/ld-version.sh
+@@ -3,6 +3,6 @@
+ 	{
+ 	gsub(".*)", "");
+ 	split($1,a, ".");
+-	print a[1]*10000000 + a[2]*100000 + a[3]*10000 + a[4]*100 + a[5];
++	print a[1]*10000000 + a[2]*100000 + a[3]*1000;
+ 	exit
+ 	}
