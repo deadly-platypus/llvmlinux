@@ -1,1 +1,2 @@
 #clang-ias-mips-args.patch
+workaround-versionfromvcsbug.patch
