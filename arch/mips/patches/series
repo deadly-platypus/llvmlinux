@@ -10,3 +10,4 @@ mips-disable-werror.patch
 mips-revert-a6335fa.patch
 mips-fix-ebb5e78cc634-clang.patch
 mips-work-around-broken-ld-version_sh.patch
+mips-type-directive.patch
