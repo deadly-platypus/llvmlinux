@@ -17,11 +17,9 @@ Reviewed-by: Mark Charlebois <charlebm@gmail.com>
  arch/arm/boot/compressed/Makefile |  2 +-
  2 files changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/arch/arm/Makefile b/arch/arm/Makefile
-index 0ce9d0f..3f3f016 100644
---- a/arch/arm/Makefile
-+++ b/arch/arm/Makefile
-@@ -26,6 +26,10 @@ GZFLAGS		:=-9
+--- linux.orig/arch/arm/Makefile
++++ linux/arch/arm/Makefile
+@@ -30,6 +30,10 @@
  # Never generate .eh_frame
  KBUILD_CFLAGS	+= $(call cc-option,-fno-dwarf2-cfi-asm)
  
@@ -29,10 +27,10 @@ index 0ce9d0f..3f3f016 100644
 +KBUILD_CFLAGS += -Wa,-mno-warn-deprecated
 +endif
 +
- # Do not use arch/arm/defconfig - it's always outdated.
- # Select a platform tht is kept up-to-date
- KBUILD_DEFCONFIG := versatile_defconfig
-@@ -37,15 +41,15 @@ KBUILD_CFLAGS	+= $(call cc-option,-mno-unaligned-access)
+ # This should work on most of the modern platforms
+ KBUILD_DEFCONFIG := multi_v7_defconfig
+ 
+@@ -40,15 +44,15 @@
  endif
  
  ifeq ($(CONFIG_FRAME_POINTER),y)
@@ -51,7 +49,7 @@ index 0ce9d0f..3f3f016 100644
  AS		+= -EL
  LD		+= -EL
  endif
-@@ -96,7 +100,7 @@ tune-$(CONFIG_CPU_V6K)		=$(call cc-option,-mtune=arm1136j-s,-mtune=strongarm)
+@@ -105,7 +109,7 @@
  tune-y := $(tune-y)
  
  ifeq ($(CONFIG_AEABI),y)
@@ -60,7 +58,7 @@ index 0ce9d0f..3f3f016 100644
  else
  CFLAGS_ABI	:=$(call cc-option,-mapcs-32,-mabi=apcs-gnu) $(call cc-option,-mno-thumb-interwork,)
  endif
-@@ -120,7 +124,7 @@ AFLAGS_ISA	:=$(CFLAGS_ISA)
+@@ -129,7 +133,7 @@
  endif
  
  # Need -Uarm for gcc < 3.x
@@ -69,19 +67,14 @@ index 0ce9d0f..3f3f016 100644
  KBUILD_AFLAGS	+=$(CFLAGS_ABI) $(AFLAGS_ISA) $(arch-y) $(tune-y) -include asm/unified.h -msoft-float
  
  CHECKFLAGS	+= -D__arm__
-diff --git a/arch/arm/boot/compressed/Makefile b/arch/arm/boot/compressed/Makefile
-index 76a50ec..0f1e6c7 100644
---- a/arch/arm/boot/compressed/Makefile
-+++ b/arch/arm/boot/compressed/Makefile
-@@ -121,7 +121,7 @@ ORIG_CFLAGS := $(KBUILD_CFLAGS)
- KBUILD_CFLAGS = $(subst -pg, , $(ORIG_CFLAGS))
- endif
+--- linux.orig/arch/arm/boot/compressed/Makefile
++++ linux/arch/arm/boot/compressed/Makefile
+@@ -115,7 +115,7 @@
+ CFLAGS_fdt_rw.o := $(nossp_flags)
+ CFLAGS_fdt_wip.o := $(nossp_flags)
  
 -ccflags-y := -fpic -mno-single-pic-base -fno-builtin -I$(obj)
 +ccflags-y := -fpic $(call cc-option,-mno-single-pic-base,) -fno-builtin -I$(obj)
  asflags-y := -DZIMAGE
  
  # Supply kernel BSS size to the decompressor via a linker symbol.
--- 
-1.9.1
-
