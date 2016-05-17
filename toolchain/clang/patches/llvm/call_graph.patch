@@ -14,6 +14,9 @@ Author: Harsh Vardhan Dwivedi <hdwivedi@codeaurora.org>
 Signed-off-by: David Peixotto <dpeixott@codeaurora.org>
 Signed-off-by: Harsh Vardhan Dwivedi <hdwivedi@codeaurora.org>
 Signed-off-by: Mark Charlebois <charlebm@gmail.com>
+[Upstream renamed createCallGraphPrinterPass() to
+ createCallGraphDOTPrinterPass()]
+Signed-off-by: Simon Dardis <simon.dardis@imgtec.com>
 ---
  lib/Transforms/IPO/PassManagerBuilder.cpp  |    9 +++++++++
  include/llvm/Analysis/DOTGraphTraitsPass.h |    8 +++++++-
@@ -45,7 +48,7 @@ Signed-off-by: Mark Charlebois <charlebm@gmail.com>
  void PassManagerBuilder::populateModulePassManager(
      legacy::PassManagerBase &MPM) {
 +  if (PrintCallGraph)
-+    MPM.add(createCallGraphPrinterPass());
++    MPM.add(createCallGraphDOTPrinterPass());
 +
    // Allow forcing function attributes as a debugging and tuning aid.
    MPM.add(createForceFunctionAttrsLegacyPass());
