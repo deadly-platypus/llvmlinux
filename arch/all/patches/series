@@ -27,3 +27,4 @@ vlais-wimax-i2400m.patch
 compiler-gcc.patch
 smaller.patch
 makefile-print.patch
+fix-7cec18a.patch
