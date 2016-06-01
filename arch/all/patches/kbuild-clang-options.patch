@@ -6,15 +6,16 @@ Subject: [PATCH] kbuild, LLVMLinux: Add more compiler options for clang
 Change default compiler options when using clang
 
 Signed-off-by: Behan Webster <behanw@converseincode.com>
+[Refreshed patch following nearby changes in upstream and rename of $(COMPILER)
+to $(cc-name)]
+Signed-off-by: Daniel Sanders <daniel.sanders@imgtec.com>
 ---
  Makefile | 13 ++++++++-----
  1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 4145b23..a5954f29 100644
---- a/Makefile
-+++ b/Makefile
-@@ -302,7 +302,7 @@ HOSTCXXFLAGS = -O2
+--- linux.orig/Makefile
++++ linux/Makefile
+@@ -306,7 +306,7 @@
  
  ifeq ($(shell $(HOSTCC) -v 2>&1 | grep -c "clang version"), 1)
  HOSTCFLAGS  += -Wno-unused-value -Wno-unused-parameter \
@@ -23,8 +24,8 @@ index 4145b23..a5954f29 100644
  endif
  
  # Decide whether to build built-in, modular, or both.
-@@ -619,8 +619,6 @@ all: vmlinux
- 
+@@ -630,8 +630,6 @@
+ ARCH_CFLAGS :=
  include arch/$(SRCARCH)/Makefile
  
 -KBUILD_CFLAGS	+= $(call cc-option,-fno-delete-null-pointer-checks,)
@@ -32,9 +33,9 @@ index 4145b23..a5954f29 100644
  ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
  KBUILD_CFLAGS	+= -Os $(call cc-disable-warning,maybe-uninitialized,)
  else
-@@ -683,19 +681,24 @@ KBUILD_CFLAGS += $(stackp-flag)
+@@ -706,19 +704,24 @@
  
- ifeq ($(COMPILER),clang)
+ ifeq ($(cc-name),clang)
  KBUILD_CPPFLAGS += $(call cc-option,-Qunused-arguments,)
 -KBUILD_CPPFLAGS += $(call cc-option,-Wno-unknown-warning-option,)
  KBUILD_CFLAGS += $(call cc-disable-warning, unused-variable)
@@ -45,8 +46,8 @@ index 4145b23..a5954f29 100644
 +KBUILD_CFLAGS += -fno-builtin
 +
  # Quiet clang warning: comparison of unsigned expression < 0 is always false
- KBUILD_CFLAGS += $(call cc-disable-warning, tautological-compare)
 +
+ KBUILD_CFLAGS += $(call cc-disable-warning, tautological-compare)
  # CLANG uses a _MergedGlobals as optimization, but this breaks modpost, as the
  # source of a reference will be _MergedGlobals and not on of the whitelisted names.
  # See modpost pattern 2
@@ -56,9 +57,6 @@ index 4145b23..a5954f29 100644
  else
  
 +KBUILD_CFLAGS += $(call cc-option,-fno-delete-null-pointer-checks,)
- # This warning generated too much noise in a regular build.
- # Use make W=1 to enable this warning (see scripts/Makefile.build)
+ # These warnings generated too much noise in a regular build.
+ # Use make W=1 to enable them (see scripts/Makefile.build)
  KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
--- 
-1.9.1
-
