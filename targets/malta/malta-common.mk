@@ -27,7 +27,7 @@ TARGETDIR	?= ${CURDIR}
 BASETARGETDIR	?= ${CURDIR}
 TOPDIR		?= $(realpath ${TARGETDIR}/../..)
 CLANG_TOOLCHAIN ?= from-source
-CROSS_MIPS_TOOLCHAIN ?= codesourcery
+CROSS_MIPS_TOOLCHAIN ?= codescape-sdk
 
 ARCH	?= mips
 BOARD	?= malta
