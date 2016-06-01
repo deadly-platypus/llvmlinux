@@ -12,15 +12,15 @@ Signed-off-by: Behan Webster <behanw@converseincode.com>
 Not-signed-off-by: Mark Charlebois <charlebm@gmail.com>
 Suggested-by: Arnd Bergmann <arnd@arndb.de>
 Cc: Arnd Bergmann <arnd@arndb.de>
+[Refreshed following upstream addition of early-clobber]
+Signed-off-by: Daniel Sanders <daniel.sanders@imgtec.com>
 ---
  lib/mpi/Makefile   | 2 ++
  lib/mpi/longlong.h | 9 +++------
  2 files changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/lib/mpi/Makefile b/lib/mpi/Makefile
-index 019a68c..d5553f6 100644
---- a/lib/mpi/Makefile
-+++ b/lib/mpi/Makefile
+--- linux.orig/lib/mpi/Makefile
++++ linux/lib/mpi/Makefile
 @@ -4,6 +4,8 @@
  
  obj-$(CONFIG_MPILIB) = mpi.o
@@ -30,11 +30,9 @@ index 019a68c..d5553f6 100644
  mpi-y = \
  	generic_mpih-lshift.o		\
  	generic_mpih-mul1.o		\
-diff --git a/lib/mpi/longlong.h b/lib/mpi/longlong.h
-index aac5114..76fc0da 100644
---- a/lib/mpi/longlong.h
-+++ b/lib/mpi/longlong.h
-@@ -193,8 +193,7 @@ extern UDItype __udiv_qrnnd(UDItype *, UDItype, UDItype, UDItype);
+--- linux.orig/lib/mpi/longlong.h
++++ linux/lib/mpi/longlong.h
+@@ -193,8 +193,7 @@
  		"rI" ((USItype)(bl)))
  #if defined __ARM_ARCH_2__ || defined __ARM_ARCH_3__
  #define umul_ppmm(xh, xl, a, b) \
@@ -44,19 +42,16 @@ index aac5114..76fc0da 100644
  		"mov	%|r2, %3, lsr #16		@ BBBB\n" \
  		"bic	%|r1, %2, %|r0, lsl #16		@ aaaa\n" \
  		"bic	%0, %3, %|r2, lsl #16		@ bbbb\n" \
-@@ -213,10 +212,8 @@ extern UDItype __udiv_qrnnd(UDItype *, UDItype, UDItype, UDItype);
+@@ -213,10 +212,8 @@
  	: "r0", "r1", "r2")
  #else
  #define umul_ppmm(xh, xl, a, b) \
 -	__asm__ ("%@ Inlined umul_ppmm\n" \
 -		"umull %r1, %r0, %r2, %r3" \
 -	: "=&r" ((USItype)(xh)), \
--			"=r" ((USItype)(xl)) \
+-			"=&r" ((USItype)(xl)) \
 +	__asm__ ("umull %1, %0, %2, %3" \
-+	: "=&r" ((xh)), "=r" ((xl)) \
++	: "=&r" ((xh)), "=&r" ((xl)) \
  	: "r" ((USItype)(a)), \
  			"r" ((USItype)(b)) \
  	: "r0", "r1")
--- 
-1.9.1
-

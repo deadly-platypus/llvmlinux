@@ -8,7 +8,6 @@ kbuild-asm-defines.patch
 kbuild-cc-option.patch
 #ethernet-emulex.patch
 lib-mpi.patch
-lib-mpi-extern-inline.patch
 lib-mpi-not-clang.patch
 lib-mpi-remove-unused.patch
 nested-function-md_bcache_sysfs.patch
